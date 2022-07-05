@@ -1,12 +1,13 @@
 {
-  "name": "js-kata-starter",
-  "version": "1.0.0",
-  "description": "Starter project for kata (Node, TypeScript, Jest)",
+  "name": "jest-golden-master",
+  "version": "0.0.1",
+  "description": "Golden master utils for Jest",
   "main": "index.js",
   "scripts": {
     "test": "jest --watch --config --coverage jest.config.json",
     "lint": "eslint \"src/**/*.ts\"",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "build": "tsc --outDir ."
   },
   "dependencies": {
     "jest-extended": "^2.0.0"
@@ -32,20 +33,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mathieueveillard/js-kata-starter.git"
+    "url": "git+https://github.com/mathieueveillard/jest-golden-master.git"
   },
   "keywords": [
-    "starter",
-    "project",
-    "kata",
     "node",
     "typescript",
-    "jest"
+    "jest",
+    "goldenmaster"
   ],
   "author": "Mathieu Eveillard",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mathieueveillard/js-kata-starter/issues"
+    "url": "https://github.com/mathieueveillard/jest-golden-master/issues"
   },
-  "homepage": "https://github.com/mathieueveillard/js-kata-starter#readme"
+  "homepage": "https://github.com/mathieueveillard/jest-golden-master#readme"
 }
