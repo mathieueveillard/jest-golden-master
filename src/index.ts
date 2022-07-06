@@ -49,7 +49,9 @@ const runGoldenMaster = async (slug: string, scenario: Scenario): Promise<void> 
   const compareActualToMaster = async (): Promise<void> => {
     eraseFile(actual);
     await runScenario(actual, scenario);
-    expect(fs.readFileSync(actual)).toEqual(fs.readFileSync(master));
+    const masterContent = fs.readFileSync(master);
+    const actualContent = fs.readFileSync(actual);
+    expect(actualContent).toEqual(masterContent);
   };
 
   if (!fs.existsSync(master)) {
