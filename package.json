@@ -2,12 +2,15 @@
   "name": "jest-golden-master",
   "version": "0.0.1",
   "description": "Golden master utils for Jest",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "jest --watch --config --coverage jest.config.json",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\"",
-    "build": "tsc --outDir ."
+    "build": "cp src/index.ts dist && tsc --outDir dist"
   },
   "dependencies": {
     "jest-extended": "^2.0.0"
