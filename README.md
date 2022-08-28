@@ -14,7 +14,7 @@
 npm install -D jest-golden-master
 ```
 
-`jest-golden-master` exports a single `runGoldenMaster` function to be used within a test. This way, the library integrates seamlessly with Jest 🫶 💙
+`jest-golden-master` exports a single `runGoldenMaster` function to be used within a test. This way, the library seamlessly integrates with Jest 🫶 💙
 
 ```typescript
 import runGoldenMaster from "jest-golden-master";
@@ -32,7 +32,7 @@ The test slug will be used for naming files, hence usual naming constraints appl
 
 ## An example
 
-This is the [Trivia](https://github.com/jbrains/trivia) legacy codebase. Much refactoring is needed, right? Here it already contains various `console.log`s, but one can add as many `console.log`s as they want.
+This is the [Trivia](https://github.com/mathieueveillard/trivia) legacy codebase. Much refactoring is needed, right? Here the codebase already logs many useful informations, but one can add as many `console.log` as they want.
 
 ```typescript
 /* eslint-disable */
@@ -229,39 +229,9 @@ Answer was correct!!!!
 Anna now has 2 Gold Coins.
 ```
 
-Now it's time to proceed to a first refactoring!
+Now let's proceed to a first refactoring.
 
 The second time the test is run, a `golden-master/only-correct-answers-actual.txt` file is created. If its content exactly equals the master, the test succeeds. Otherwise, it fails.
-
-Here something has gone wrong because our test fails!
-
-```text
-Anna was added
-They are player number 1
-Thomas was added
-They are player number 2
-Anna is the current player
-They have rolled a 1
-Anna's new location is 1
-The category is Science
-Science Question 0
-Answer was correct!!!!
-Anna now has 0 Gold Coins.
-Thomas is the current player
-They have rolled a 1
-Thomas's new location is 1
-The category is Science
-Science Question 1
-Answer was correct!!!!
-Thomas now has 0 Gold Coins.
-Anna is the current player
-They have rolled a 1
-Anna's new location is 2
-The category is Sports
-Sports Question 0
-Answer was correct!!!!
-Anna now has 0 Gold Coins.
-```
 
 ## Help needed!
 
@@ -269,6 +239,6 @@ Contributions are much welcomed 🙏
 
 Some ideas of features:
 
-- A CLI to delete a master (with caution, but still: writting a scenario usually requires many iterations);
-- Allow configuration, e.g. the output directory;
-- Improve the comparison between master and actual logs;
+- Writting a scenario usually requires many iterations. During those iterations, it is normal to update the master, while later, during the refactoring step, the master should not change (by definition). Hence there should be 2 modes, something like `MASTER_DEFINITION` and `REFACTORING`;
+- Basic configuration, e.g. the output directory;
+- Improve the comparison between master and actual logs.
