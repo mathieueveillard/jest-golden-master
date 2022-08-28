@@ -3,7 +3,7 @@ import * as fs from "fs";
 
 type Scenario = () => Promise<void>;
 
-const DIRECTORY = "./golden-master";
+export const DIRECTORY = "./golden-master";
 
 const createDirectoryIfRequired = (): void => {
   if (!fs.existsSync(DIRECTORY)) {
@@ -19,8 +19,10 @@ const generateFilePaths = (slug: string) => {
 };
 
 const runScenario = async (filePath: string, scenario: Scenario): Promise<void> => {
+  const loggingFunction = console.log;
+
   const teardown = () => {
-    console.log = console.log.bind(console);
+    console.log = loggingFunction;
   };
 
   console.log = (text: string): void => {
