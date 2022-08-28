@@ -240,5 +240,4 @@ Contributions are much welcomed 🙏
 Some ideas of features:
 
 - Writting a scenario usually requires many iterations. During those iterations, it is normal to update the master, while later, during the refactoring step, the master should not change (by definition). Hence there should be 2 modes, something like `MASTER_DEFINITION` and `REFACTORING`;
-- Basic configuration, e.g. the output directory;
-- Improve the comparison between master and actual logs.
+- Basic configuration, e.g. the output directory.

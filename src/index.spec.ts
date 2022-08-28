@@ -49,6 +49,66 @@ describe("Test of runGoldenMaster()", () => {
     expect(fs.existsSync(`${DIRECTORY}/comparison-to-master-actual.txt`)).toEqual(true);
   });
 
+  test("Better comparison between master and actual files: missing lines", async () => {
+    // GIVEN
+    await runGoldenMaster("missing-lines", async () => {
+      console.log("First line");
+      console.log("Second line");
+      console.log("Third line");
+      console.log("Fourth line");
+    });
+
+    // WHEN
+    // THEN
+    expect(() =>
+      runGoldenMaster("missing-lines", async () => {
+        console.log("First line");
+        console.log("Fourth line");
+      })
+    ).rejects.toThrow();
+    expect(fs.existsSync(`${DIRECTORY}/missing-lines-actual.txt`)).toEqual(true);
+  });
+
+  test("Better comparison between master and actual files: additional lines", async () => {
+    // GIVEN
+    await runGoldenMaster("additional-lines", async () => {
+      console.log("First line");
+      console.log("Second line");
+    });
+
+    // WHEN
+    // THEN
+    expect(() =>
+      runGoldenMaster("additional-lines", async () => {
+        console.log("First line");
+        console.log("Intermediary line 1");
+        console.log("Intermediary line 2");
+        console.log("Second line");
+      })
+    ).rejects.toThrow();
+    expect(fs.existsSync(`${DIRECTORY}/additional-lines-actual.txt`)).toEqual(true);
+  });
+
+  test("Better comparison between master and actual files: a line is replaced", async () => {
+    // GIVEN
+    await runGoldenMaster("a-line-is-replaced", async () => {
+      console.log("First line");
+      console.log("Second line");
+      console.log("Third line");
+    });
+
+    // WHEN
+    // THEN
+    expect(() =>
+      runGoldenMaster("a-line-is-replaced", async () => {
+        console.log("First line");
+        console.log("Another second line");
+        console.log("Third line");
+      })
+    ).rejects.toThrow();
+    expect(fs.existsSync(`${DIRECTORY}/a-line-is-replaced-actual.txt`)).toEqual(true);
+  });
+
   test("Monkey patching: console.log should be assigned its ignitial value after test", async () => {
     // GIVEN
     const log = console.log;

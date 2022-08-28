@@ -1,6 +1,6 @@
 {
   "name": "jest-golden-master",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Golden master utils for Jest",
   "main": "dist/index.js",
   "files": [
@@ -13,12 +13,15 @@
     "build": "cp src/index.ts dist && tsc --outDir dist"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
+    "diff": "^5.1.0",
     "jest-extended": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
+    "@types/diff": "^5.0.2",
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
