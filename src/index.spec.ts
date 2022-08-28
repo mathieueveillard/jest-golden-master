@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as fs from "fs";
 import runGoldenMaster, { DIRECTORY } from ".";
 
@@ -52,7 +51,7 @@ describe("Test of runGoldenMaster()", () => {
 
   test("Monkey patching: console.log should be assigned its ignitial value after test", async () => {
     // GIVEN
-    const loggingFunction = console.log;
+    const log = console.log;
     await runGoldenMaster("monkey-patching", async () => {
       console.log("Successful refactoring (no regression)");
     });
@@ -63,6 +62,6 @@ describe("Test of runGoldenMaster()", () => {
     });
 
     // THEN
-    expect(console.log).toBe(loggingFunction);
+    expect(console.log).toBe(log);
   });
 });

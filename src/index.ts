@@ -1,65 +1,80 @@
-/* eslint-disable no-console */
 import * as fs from "fs";
-
-type Scenario = () => Promise<void>;
 
 export const DIRECTORY = "./golden-master";
 
-const createDirectoryIfRequired = (): void => {
-  if (!fs.existsSync(DIRECTORY)) {
-    fs.mkdirSync(DIRECTORY);
+type LoggingFunction = (text: string) => void;
+
+type TeardownFunction = () => void;
+
+type Scenario = () => Promise<void>;
+
+const createDirectoryIfRequired = (directory: string): void => {
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory);
   }
 };
 
-const generateFilePaths = (slug: string) => {
+const generateFilePaths = (directory: string) => (slug: string) => {
   return {
-    master: `${DIRECTORY}/${slug}-master.txt`,
-    actual: `${DIRECTORY}/${slug}-actual.txt`,
+    master: `${directory}/${slug}-master.txt`,
+    actual: `${directory}/${slug}-actual.txt`,
   };
 };
 
-const runScenario = async (filePath: string, scenario: Scenario): Promise<void> => {
-  const loggingFunction = console.log;
+const monkeyPatchConsoleLog = (patchFunction: LoggingFunction): TeardownFunction => {
+  const log = console.log;
 
   const teardown = () => {
-    console.log = loggingFunction;
+    console.log = log;
   };
 
-  console.log = (text: string): void => {
-    // eslint-disable-next-line prefer-template
-    fs.appendFileSync(filePath, text + "\n");
-  };
+  console.log = patchFunction;
 
-  await scenario();
-
-  teardown();
+  return teardown;
 };
+
+const runScenario =
+  (scenario: Scenario) =>
+  async (filePath: string): Promise<void> => {
+    const teardown = monkeyPatchConsoleLog((text: string): void => {
+      fs.appendFileSync(filePath, text + "\n");
+    });
+
+    await scenario();
+
+    teardown();
+  };
 
 const eraseFile = (path: string): void => {
   fs.writeFileSync(path, "");
 };
 
-const runGoldenMaster = async (slug: string, scenario: Scenario): Promise<void> => {
-  createDirectoryIfRequired();
-
-  const { master, actual } = generateFilePaths(slug);
-
-  const createMaster = (): Promise<void> => {
-    return runScenario(master, scenario);
+const createMaster =
+  (scenario: Scenario) =>
+  (master: string): Promise<void> => {
+    return runScenario(scenario)(master);
   };
 
-  const compareActualToMaster = async (): Promise<void> => {
+const compareActualToMaster =
+  (scenario: Scenario) =>
+  (master: string) =>
+  async (actual: string): Promise<void> => {
     eraseFile(actual);
-    await runScenario(actual, scenario);
+    await runScenario(scenario)(actual);
     const masterContent = fs.readFileSync(master);
     const actualContent = fs.readFileSync(actual);
     expect(actualContent).toEqual(masterContent);
   };
 
+const runGoldenMaster = async (slug: string, scenario: Scenario): Promise<void> => {
+  createDirectoryIfRequired(DIRECTORY);
+
+  const { master, actual } = generateFilePaths(DIRECTORY)(slug);
+
   if (!fs.existsSync(master)) {
-    await createMaster();
+    await createMaster(scenario)(master);
   } else {
-    await compareActualToMaster();
+    await compareActualToMaster(scenario)(master)(actual);
   }
 };
 
