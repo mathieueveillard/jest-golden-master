@@ -1,38 +1,22 @@
 {
   "name": "jest-golden-master",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Golden master utils for Jest",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "jest --watch --config --coverage jest.config.json",
-    "lint": "eslint \"src/**/*.ts\"",
+    "test": "jest --watch --coverage",
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "cp src/index.ts dist && tsc --outDir dist"
   },
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "diff": "^5.1.0",
-    "jest-extended": "^2.0.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
-    "@types/diff": "^5.0.2",
-    "@types/jest": "^27.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
-    "babel-jest": "^27.4.6",
-    "eslint": "^8.18.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.5.3",
-    "jest": "^27.4.7",
-    "prettier": "^2.5.1",
-    "typescript": "^4.5.4"
+    "@types/jest": "^29.2.4",
+    "jest": "^29.3.1",
+    "prettier": "^2.8.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
   },
   "prettier": {
     "printWidth": 120
